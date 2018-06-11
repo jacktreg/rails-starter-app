@@ -2,14 +2,14 @@
 <html>
   <head>
     <title>Rails Starter Application</title>
-    <%= render 'layouts/rails_default' %>
-    <%= render 'layouts/shim' %>
+    <%= render 'application/rails_default' %>
+    <%= render 'application/shim' %>
   </head>
   <body>
-    <%= render '/layouts/header' %>
+    <%= render 'application/header' %>
     <div class="container">
       <%= yield %>
-      <%= render 'layouts/footer' %>
+      <%= render 'application/footer' %>
     </div>
   </body>
 </html>
