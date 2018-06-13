@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Rails Starter Application</title>
+    <title><%= yield(:title) %> | Rails Starter Application</title>
     <%= render 'application/rails_default' %>
     <%= render 'application/shim' %>
   </head>
