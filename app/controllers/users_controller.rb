@@ -64,11 +64,11 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      if User.exists?(id: params[:id])
-        @user = User.find(params[:id])
+      username = params[:username]
+      if User.exists?(username: username)
+        @user = User.find_by(username: username)
       else
-        # TODO: make this a method, put it in a module
-        raise ActionController::RoutingError.new('Not Found')
+        render "application/404"
       end
     end
 

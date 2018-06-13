@@ -7,6 +7,6 @@ Rails.application.routes.draw do
   get '/contact', to: 'application#contact'
   get '/signup',  to: 'users#new'
 
-  resources :users
+  resources :users, param: :username
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
