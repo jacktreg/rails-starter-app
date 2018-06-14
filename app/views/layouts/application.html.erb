@@ -8,6 +8,10 @@
   <body>
     <%= render 'application/header' %>
     <div class="container">
+      <% if flash %>
+        <%= render partial: "shared/flash", locals: { flash: flash } %>
+      <% end %>
+
       <%= yield %>
       <%= render 'application/footer' %>
     </div>

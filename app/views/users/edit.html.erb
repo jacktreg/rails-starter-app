@@ -1,6 +1,24 @@
 <h1>Editing User</h1>
 
-<%= render 'form', user: @user %>
 
-<%= link_to 'Show', @user %> |
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@user) do |f| %>
+
+      <%= render partial: "shared/error_messages", locals: { obj: @user } %>
+
+      <%= f.label :username %>
+      <%= f.text_field :username, class: "field" %>
+      <%= hidden_field_tag("old_username", @user.username) %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: "field" %>
+      <%= hidden_field_tag("old_email", @user.email) %>
+
+      <%= f.submit "Update User", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<%= link_to 'Show', user_path(@user, username: @user.username) %> |
 <%= link_to 'Back', users_path %>

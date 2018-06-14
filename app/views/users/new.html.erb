@@ -4,6 +4,9 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(@user) do |f| %>
+
+      <%= render partial: "shared/error_messages", locals: { obj: @user } %>
+      
       <%= f.label :username %>
       <%= f.text_field :username, class: "field" %>
 
