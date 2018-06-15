@@ -6,7 +6,7 @@
     <%= form_for(@user) do |f| %>
 
       <%= render partial: "shared/error_messages", locals: { obj: @user } %>
-      
+
       <%= f.label :username %>
       <%= f.text_field :username, class: "field" %>
 
@@ -19,7 +19,7 @@
       <%= f.label :password_confirmation, "Password Confirmation" %>
       <%= f.password_field :password_confirmation, class: "field" %>
 
-      <%= f.submit "Create my account", class: "btn btn-primary" %>
+      <%= f.submit "Create Account", class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
