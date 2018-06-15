@@ -3,12 +3,12 @@
 one:
   username: abc123456
   email: abc123456@example.com
-  password_digest: aaaaaaaa
+  password_digest: <%= User.digest('password') %>
 
 two:
   username: test
   email: test@example.com
-  password_digest: aaaaaaaaa
+  password_digest: <%= User.digest('password') %>
 
 michael:
   username: Michael

@@ -121,7 +121,7 @@ form {
      text-align: center;
    }
    input {
-     width: 15em;
+     width: 20em;
    }
    .field {
      display: block;
@@ -163,4 +163,18 @@ form {
   .form-control {
     color: $state-danger-text;
   }
+}
+
+.checkbox {
+  margin-top: -10px;
+  margin-bottom: 10px;
+  span {
+    margin-left: 20px;
+    font-weight: normal;
+  }
+}
+
+#session_remember_me {
+  width: auto;
+  margin-left: 0;
 }

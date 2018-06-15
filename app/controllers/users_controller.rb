@@ -30,6 +30,7 @@ class UsersController < ApplicationController
       flash[:success] = "Account succesfully created!"
       redirect_to user_path(@user, username: @user.username)
     else
+      flash.now[:danger] = "Sorry, we had an issue creating the account."
       render :new
     end
   end
@@ -41,6 +42,7 @@ class UsersController < ApplicationController
       flash[:success] = "Account succesfully updated."
       redirect_to user_path(@user, username: @user.username)
     else
+      flash.now[:danger] = "Sorry, we had an issue updating your account."
       render :edit
     end
   end
