@@ -38,7 +38,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    if @user.update(user_params)
+    if @user.update_attributes(user_params)
       flash[:success] = "Account succesfully updated."
       redirect_to user_path(@user, username: @user.username)
     else
