@@ -2,7 +2,9 @@
 
   <%= render partial: "shared/error_messages", locals: { obj: @user } %>
 
-  <%= hidden_field_tag :old_username, @user.username %>
+  <% if !@user.new_record? %>
+    <%= hidden_field_tag :old_username, @user.username %>
+  <% end %>
 
   <%= f.label :username %>
   <%= f.text_field :username, class: "field" %>
@@ -13,8 +15,10 @@
   <%= f.label :password %>
   <%= f.password_field :password, class: "field" %>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation, class: "field" %>
+  <% if @user.new_record? %>
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation, class: "field" %>
+  <% end %>
 
   <%= f.submit yield(:button_text), class: "btn btn-primary" %>
 <% end %>

@@ -18,8 +18,8 @@
         <td><%= user.username %></td>
         <td><%= user.email %></td>
         <td><%= user.admin %></td>
-        <td><%= link_to 'Show', current_user_show_path %></td>
-        <td><%= link_to 'Edit', current_user_edit_path %></td>
+        <td><%= link_to 'Show', user_path(current_user) %></td>
+        <td><%= link_to 'Edit', edit_user_path(current_user) %></td>
         <td><%= link_to 'Destroy', user_path(user, username: user.username), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

@@ -4,7 +4,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    if !logged_in? || !current_user.admin
+      redirect_to root_path
+    else
+      @users = User.all
+    end
   end
 
   # GET /users/1
@@ -28,9 +32,8 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       flash[:success] = "Account succesfully created!"
-      redirect_to user_path(@user, username: @user.username)
+      redirect_to @user
     else
-      flash.now[:danger] = "Sorry, we had an issue creating the account."
       render :new
     end
   end
@@ -38,11 +41,10 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    if @user.update_attributes(user_params)
+    if @user.authenticate(user_params[:password]) && @user.update_attributes(user_params)
       flash[:success] = "Account succesfully updated."
-      redirect_to user_path(@user, username: @user.username)
+      redirect_to @user
     else
-      flash.now[:danger] = "Sorry, we had an issue updating your account."
       render :edit
     end
   end

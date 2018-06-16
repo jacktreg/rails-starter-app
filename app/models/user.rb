@@ -13,6 +13,10 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 8 }
 
+  def to_param
+    username
+  end
+  
   def clean_before_save
     self.email = email.downcase
     self.admin = false if self.admin != true

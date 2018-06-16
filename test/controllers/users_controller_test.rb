@@ -3,9 +3,22 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
+    @admin = users(:admin)
   end
 
-  test "should get index" do
+  test "not logged in shouldn't get index" do
+    get users_url
+    assert_redirected_to root_path
+  end
+
+  test "non admin user shouldn't get index" do
+    log_in_as(@user)
+    get users_url
+    assert_redirected_to root_path
+  end
+
+  test "user admin should get index" do
+    log_in_as(@admin)
     get users_url
     assert_response :success
   end
@@ -22,7 +35,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         password_confirmation: "password" } }
     end
 
-    assert_redirected_to user_path(User.last, username: User.last.username)
+    assert_redirected_to user_path(User.last)
   end
 
   test "should show user" do
@@ -31,15 +44,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get edit" do
-    get edit_user_url(@user)
+    get edit_user_path(@user)
     assert_response :success
   end
 
   test "should update user" do
-    patch user_path(@user, username: @user.username),
+    patch user_path(@user),
     params: { user: { email: @user.email, username: @user.username,
       password: "password", password_confirmation: "password" } }
-    assert_redirected_to user_path(@user, username: @user.username)
+    assert_redirected_to user_path(@user)
   end
 
   test "should destroy user" do
