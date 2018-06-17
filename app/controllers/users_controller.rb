@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user, only: [:index, :edit, :update]
-  before_action :authorize_user, only: [:edit, :update]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :authorize_user, only: [:edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 10)
   end
 
   # GET /users/1
@@ -54,9 +54,16 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    own_acct = current_user?(@user)
     @user.destroy
-    flash[:success] = "Account succesfully deleted."
-    redirect_to users_path
+    if own_acct
+      flash[:success] = "Your account has been succesfully deleted."
+      redirect_to root_path
+    else
+      flash[:success] = "Account succesfully deleted."
+      redirect_to users_path
+    end
+
   end
 
   private
