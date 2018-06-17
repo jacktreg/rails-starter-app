@@ -15,10 +15,8 @@
   <%= f.label :password %>
   <%= f.password_field :password, class: "field" %>
 
-  <% if @user.new_record? %>
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, class: "field" %>
-  <% end %>
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation, class: "field" %>
 
   <%= f.submit yield(:button_text), class: "btn btn-primary" %>
 <% end %>

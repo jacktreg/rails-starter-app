@@ -44,15 +44,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get edit" do
+    log_in_as(@user)
     get edit_user_path(@user)
     assert_response :success
   end
 
   test "should update user" do
-    patch user_path(@user),
-    params: { user: { email: @user.email, username: @user.username,
+    log_in_as(@user)
+    patch user_path(@user), params: { user: { email: @user.email, username: @user.username,
       password: "password", password_confirmation: "password" } }
-    assert_redirected_to user_path(@user)
+    assert_redirected_to @user
   end
 
   test "should destroy user" do

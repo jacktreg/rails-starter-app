@@ -1,13 +1,14 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, :authorize_user, only: [:edit, :update]
 
   # GET /users
   # GET /users.json
   def index
-    if !logged_in? || !current_user.admin
-      redirect_to root_path
-    else
+    if is_admin?
       @users = User.all
+    else
+      redirect_to root_path
     end
   end
 
@@ -23,6 +24,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+
   end
 
   # POST /users
@@ -41,11 +43,12 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    if @user.authenticate(user_params[:password]) && @user.update_attributes(user_params)
+    if @user.update_attributes(user_params)
       flash[:success] = "Account succesfully updated."
       redirect_to @user
     else
-      render :edit
+      flash[:danger] = "We couldn't update your account."
+      redirect_to edit_user_path(@user)
     end
   end
 
@@ -71,5 +74,19 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:username, :email, :password, :password_confirmation)
+    end
+
+    # Confirms a logged-in user.
+    def logged_in_user
+      unless logged_in?
+        flash[:danger] = "Please log in."
+        redirect_to login_url
+      end
+    end
+
+    def authorize_user
+      if current_user.username != @user.username && !is_admin?
+        redirect_to root_path
+      end
     end
 end
