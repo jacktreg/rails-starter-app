@@ -63,8 +63,10 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
   end
 
-  test "successful edit" do
+  test "successful edit with friendly forwarding" do
+    get edit_user_path(@user)
     log_in_as(@user)
+    assert_redirected_to edit_user_url(@user)
     get edit_user_path(@user)
     assert_template 'users/edit'
     username  = "Foo Bar"
@@ -73,11 +75,36 @@ class UsersEditTest < ActionDispatch::IntegrationTest
                                               email: email,
                                               password:              "password",
                                               password_confirmation: "password" } }
-    @user.update_attributes(username: username, email: email)
     assert_not flash.empty?
-    assert_redirected_to @user
     @user.reload
+    assert_redirected_to @user
     assert_equal username,  @user.username
     assert_equal email, @user.email
+  end
+
+  test "user stays logged in after editing their account" do
+    log_in_as(@user)
+    username  = "Foo Bar"
+    email = "foo@bar.com"
+    patch user_path(@user), params: { user: { username:  username,
+                                              email: email,
+                                              password:              "password",
+                                              password_confirmation: "password" } }
+    @user.reload
+    get edit_user_path(@user)
+    assert_template 'users/edit'
+  end
+
+  test "admin user stays logged in after editing another account" do
+    log_in_as(@admin)
+    username  = "Foo Bar"
+    email = "foo@bar.com"
+    patch user_path(@user), params: { user: { username:  username,
+                                              email: email,
+                                              password:              "password",
+                                              password_confirmation: "password" } }
+    @user.reload
+    get edit_user_path(@admin)
+    assert_template 'users/edit'
   end
 end

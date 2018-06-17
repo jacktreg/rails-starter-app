@@ -1,15 +1,12 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user, :authorize_user, only: [:edit, :update]
+  before_action :logged_in_user, only: [:index, :edit, :update]
+  before_action :authorize_user, only: [:edit, :update]
 
   # GET /users
   # GET /users.json
   def index
-    if is_admin?
-      @users = User.all
-    else
-      redirect_to root_path
-    end
+    @users = User.all
   end
 
   # GET /users/1
@@ -43,7 +40,9 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+
     if @user.update_attributes(user_params)
+      log_in(@user) if current_user?(@user)
       flash[:success] = "Account succesfully updated."
       redirect_to @user
     else
@@ -79,14 +78,15 @@ class UsersController < ApplicationController
     # Confirms a logged-in user.
     def logged_in_user
       unless logged_in?
+        store_location
         flash[:danger] = "Please log in."
         redirect_to login_url
       end
     end
 
     def authorize_user
-      if current_user.username != @user.username && !is_admin?
-        redirect_to root_path
+      unless current_user?(@user) || is_admin?
+        redirect_to root_url
       end
     end
 end

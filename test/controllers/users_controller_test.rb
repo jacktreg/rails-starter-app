@@ -6,18 +6,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @admin = users(:admin)
   end
 
-  test "not logged in shouldn't get index" do
-    get users_url
-    assert_redirected_to root_path
+  test "should redirect index when not logged in" do
+    get users_path
+    assert_redirected_to login_url
   end
 
-  test "non admin user shouldn't get index" do
+  test "should get index when logged in" do
     log_in_as(@user)
     get users_url
-    assert_redirected_to root_path
+    assert_response :success
   end
 
-  test "user admin should get index" do
+  test "should get index when admin logged in" do
     log_in_as(@admin)
     get users_url
     assert_response :success
@@ -60,7 +60,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference('User.count', -1) do
       delete user_path(@user, username: @user.username)
     end
-
     assert_redirected_to users_url
+  end
+
+  test "should redirect edit when not logged in" do
+    get edit_user_path(@user)
+    assert_not flash.empty?
+    assert_redirected_to login_url
+  end
+
+  test "should redirect update when not logged in" do
+    patch user_path(@user), params: { user: { username: @user.username,
+                                              email: @user.email } }
+    assert_not flash.empty?
+    assert_redirected_to login_url
   end
 end
