@@ -2,21 +2,29 @@
 
   <%= render partial: "shared/error_messages", locals: { obj: @user } %>
 
-  <% if !@user.new_record? %>
-    <%= hidden_field_tag :old_username, @user.username %>
-  <% end %>
+  <div class="form-group">
+    <%= f.label :username, for: "new-username" %>
+    <%= f.text_field :username, class: "form-control", id: "new-username", placeholder: "Username" %>
+  </div>
 
-  <%= f.label :username %>
-  <%= f.text_field :username, class: "field" %>
+  <div class="form-group">
+    <%= f.label :email, for: "new-email" %>
+    <%= f.email_field :email, class: "form-control", id: "new-email", type: "email",
+      placeholder: "Enter email"%>
+    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+  </div>
 
-  <%= f.label :email %>
-  <%= f.email_field :email, class: "field" %>
+  <div class="form-group">
+    <%= f.label :password, for: "new-password" %>
+    <%= f.password_field :password, class: "form-control", id: "new-password",
+      type: "password", placeholder: "Password" %>
+  </div>
 
-  <%= f.label :password %>
-  <%= f.password_field :password, class: "field" %>
-
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation, class: "field" %>
+  <div class="form-group">
+    <%= f.label :password_confirmation, for: "new-password-confirm" %>
+    <%= f.password_field :password_confirmation, class: "form-control",
+      id: "new-password-confirm", type: "password", placeholder: "Password confirmation" %>
+  </div>
 
   <%= f.submit yield(:button_text), class: "btn btn-primary" %>
 <% end %>

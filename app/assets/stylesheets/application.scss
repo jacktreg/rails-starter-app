@@ -114,33 +114,6 @@
 
  /* forms */
 
-form {
-   label {
-     display: block;
-     margin: auto;
-     text-align: center;
-   }
-   input {
-     width: 20em;
-   }
-   .field {
-     display: block;
-     margin-left: auto;
-     margin-right: auto;
-     margin-bottom: 1em;
-     -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-     border-radius: 5px;
-     border-width: 1px;
-     border-color: $gray-light;
-   }
-
-   .btn {
-     display: block;
-     margin: auto;
-   }
- }
-
  .info-label {
    display: block;
    margin-left: auto;
