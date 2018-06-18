@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token
-  before_save :clean_before_save
-  before_create :create_activation_digest
+  before_save :clean_before_save, :create_activation_digest
 
   validates :username, presence: true,
                     uniqueness: { case_sensitive: false },
