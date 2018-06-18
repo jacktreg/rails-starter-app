@@ -34,8 +34,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         username: "unique", password: "password",
         password_confirmation: "password" } }
     end
+    assert_redirected_to root_url
+    follow_redirect!
+    assert_not flash.empty?
+    # assert_template 'users/show'
+    # assert is_logged_in?
 
-    assert_redirected_to user_path(User.last)
   end
 
   test "should show user" do
