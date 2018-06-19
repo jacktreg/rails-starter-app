@@ -18,9 +18,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   test "non admin user can only update their account" do
     log_in_as(@user)
     patch user_path(@admin), params: { user: { username:  "Michael",
-                                              email: "foo@valid.com",
-                                              password:              "aaaaaaaa",
-                                              password_confirmation: "aaaaaaaa" },
+                                              password:              "password" },
                                        }
     assert_redirected_to root_path
   end
@@ -33,9 +31,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
 
   test "unsuccessful not logged in edit" do
     patch user_path(@user), params: { user: { username:  "Michael",
-                                              email: "foo@valid.com",
-                                              password:              "aaaaaaaa",
-                                              password_confirmation: "aaaaaaaa" } }
+                                              password:              "password"} }
     assert_redirected_to login_url
     assert_not flash.empty?
   end
@@ -43,9 +39,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   test "successful admin edit" do
     log_in_as(@admin)
     patch user_path(@user), params: { user: { username:  "Michael",
-                                              email: "foo@valid.com",
-                                              password:              "aaaaaaaa",
-                                              password_confirmation: "aaaaaaaa" },
+                                              password:              "password" },
                                        }
     assert_redirected_to user_path(@user)
     assert_not flash.empty?
@@ -56,9 +50,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     get edit_user_path(@user)
     assert_template 'users/edit'
     patch user_path(@user), params: { user: { username:  "Michael",
-                                              email: "foo@invalid",
-                                              password:              "foo",
-                                              password_confirmation: "bar" } }
+                                              password:              "foo"} }
     assert_redirected_to edit_user_path(@user)
     assert_not flash.empty?
   end
@@ -70,16 +62,12 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     get edit_user_path(@user)
     assert_template 'users/edit'
     username  = "Foo Bar"
-    email = "foo@bar.com"
     patch user_path(@user), params: { user: { username:  username,
-                                              email: email,
-                                              password:              "password",
-                                              password_confirmation: "password" } }
+                                              password:              "password" } }
     assert_not flash.empty?
     @user.reload
     assert_redirected_to @user
     assert_equal username,  @user.username
-    assert_equal email, @user.email
   end
 
   test "user stays logged in after editing their account" do
@@ -87,9 +75,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     username  = "Foo Bar"
     email = "foo@bar.com"
     patch user_path(@user), params: { user: { username:  username,
-                                              email: email,
-                                              password:              "password",
-                                              password_confirmation: "password" } }
+                                              password:              "password" } }
     @user.reload
     get edit_user_path(@user)
     assert_template 'users/edit'
@@ -100,9 +86,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     username  = "Foo Bar"
     email = "foo@bar.com"
     patch user_path(@user), params: { user: { username:  username,
-                                              email: email,
-                                              password:              "password",
-                                              password_confirmation: "password" } }
+                                              password:              "password"} }
     @user.reload
     get edit_user_path(@admin)
     assert_template 'users/edit'
