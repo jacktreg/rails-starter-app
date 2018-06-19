@@ -41,13 +41,16 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-
-    if @user.update_attributes(user_params)
-      log_in(@user) if current_user?(@user)
-      flash[:success] = "Account succesfully updated."
-      redirect_to @user
+    if @user && @user.authenticate(user_params[:password])
+      if @user.update_attributes(user_params)
+        log_in(@user) if current_user?(@user)
+        flash[:success] = "Account succesfully updated."
+        redirect_to @user
+      else
+        render :edit
+      end
     else
-      flash[:danger] = "We couldn't update your account."
+      flash[:danger] = "Invalid password."
       redirect_to edit_user_path(@user)
     end
   end
